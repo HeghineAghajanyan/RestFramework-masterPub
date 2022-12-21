@@ -19,8 +19,8 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 import settings.base
-from apps.temp.views import TempList
-
+from apps.temp.views import TempViewSet, TempEntityViewSet
+#
 router: DefaultRouter = DefaultRouter(
     trailing_slash=False
 )
@@ -31,13 +31,12 @@ urlpatterns = [
 ]+static(settings.base.STATIC_URL, document_root=settings.base.STATIC_ROOT) +\
               static(settings.base.MEDIA_URL, document_root=settings.base.MEDIA_ROOT)
 
-router.register('temp', TempList)
+router.register('temp', TempViewSet, basename='temper')
+router.register('temp2', TempEntityViewSet, basename='tempEntity')
 
 urlpatterns += [
-
     path(
-        'api/v1/temp',
-        TempList.as_view(),
-        name='temp'
+        'api/v1/',
+        include(router.urls)
     )
 ]

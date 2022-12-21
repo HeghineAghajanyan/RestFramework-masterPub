@@ -1,3 +1,21 @@
 from django.contrib import admin
+from apps.temp.models import TempModel,TempEntity
 
-# Register your models here.
+class TempModelAdmin(admin.ModelAdmin):
+    """TempModelAdmin."""
+
+    readonly_fields = (
+        'name',
+        'number',
+        'is_activated',
+        'datetime_created',
+        'datetime_updated',
+        'datetime_deleted',
+    )
+
+
+admin.site.register(
+    TempModel, TempModelAdmin
+)
+
+admin.site.register(TempEntity)
