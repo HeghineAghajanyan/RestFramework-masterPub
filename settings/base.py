@@ -1,20 +1,18 @@
+# Python
 import os
 import sys
 
-# Third party
 
-BASE_DIR = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))
-)
 DEBUG = True
-
 ALLOWED_HOSTS = []
-
 AUTH_USER_MODEL = 'auths.CustomUser'
 
 # ------------------------------------------------
 # Path
 #
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))
+)
 sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
 
@@ -77,7 +75,7 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = 'deploy.wsgi.application'
+WSGI_APPLICATION = 'settings.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

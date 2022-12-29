@@ -1,9 +1,13 @@
+# Python
 from typing import Optional
 
-from apps.auths.models import CustomUser
+# Django
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.core.handlers.wsgi import WSGIRequest
+
+# First party
+from auths.models import CustomUser
 
 
 class CustomUserAdmin(UserAdmin):
@@ -83,4 +87,3 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(
     CustomUser, CustomUserAdmin
 )
-

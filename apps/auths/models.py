@@ -1,7 +1,15 @@
+# Django
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin
+)
 from django.core.exceptions import ValidationError
-from django.db.models import BooleanField, DateTimeField, EmailField, QuerySet
+from django.db.models import (
+    BooleanField,
+    DateTimeField,
+    EmailField
+)
 from django.utils import timezone
 
 

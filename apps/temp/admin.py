@@ -1,5 +1,11 @@
+# Django
 from django.contrib import admin
-from apps.temp.models import TempModel, TempEntity
+
+# Local
+from .models import (
+    TempEntity,
+    TempModel
+)
 
 
 class TempModelAdmin(admin.ModelAdmin):
@@ -25,8 +31,5 @@ class TempEntityModelAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(
-    TempModel, TempModelAdmin
-)
-
+admin.site.register(TempModel, TempModelAdmin)
 admin.site.register(TempEntity, TempEntityModelAdmin)

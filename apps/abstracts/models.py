@@ -1,4 +1,8 @@
-from django.db.models import DateTimeField, Model
+# Django
+from django.db.models import (
+    DateTimeField,
+    Model
+)
 
 
 class AbstractsDateTime(Model):

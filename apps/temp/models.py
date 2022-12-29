@@ -1,20 +1,23 @@
-from typing import Optional
-
+# Django
 from django.db import models
-from django.db.models import QuerySet, F
+from django.db.models import (
+    F,
+    QuerySet
+)
 
-from apps.abstracts.models import AbstractsDateTime
+# First party
+from abstracts.models import AbstractsDateTime
 
 
 class TempModelQuerySet(QuerySet):
     """TempModelQuerySet."""
 
-    def get_deleted(self) :
+    def get_deleted(self):
         return self.filter(
             datetime_deleted__isnull=False
         )
 
-    def get_not_deleted(self) :
+    def get_not_deleted(self):
         return self.filter(
             datetime_deleted__isnull=True
         )
@@ -85,4 +88,3 @@ class TempEntity(AbstractsDateTime):
         ordering = (
             'lastname',
         )
-

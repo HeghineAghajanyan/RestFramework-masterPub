@@ -1,10 +1,15 @@
-from rest_framework.serializers import ModelSerializer
-from apps.temp.models import TempModel, TempEntity
+# DRF
 from rest_framework.serializers import (
-    ModelSerializer,
+    BooleanField,
     CharField,
     IntegerField,
-    BooleanField,
+    ModelSerializer
+)
+
+# Local
+from .models import (
+    TempEntity,
+    TempModel
 )
 
 

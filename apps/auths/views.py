@@ -1,7 +1,6 @@
-from django.shortcuts import render
+# DRF
 from rest_framework.views import APIView
 
 
 class TempView(APIView):
     pass
-

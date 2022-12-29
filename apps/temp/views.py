@@ -1,12 +1,21 @@
+# Python
 from datetime import datetime
 
+# DRF
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from apps.temp.models import TempModel, TempEntity
-from apps.temp.serializers import TempSerializer, TempEntitySerializer
+# Local
+from .models import (
+    TempEntity,
+    TempModel
+)
+from .serializers import (
+    TempEntitySerializer,
+    TempSerializer
+)
 
 
 class TempViewSet(ViewSet):
@@ -25,12 +34,14 @@ class TempEntityViewSet(ViewSet):
         detail=False,
         url_path='list-2',
         permission_classes=(
-                AllowAny,
+            AllowAny,
         )
     )
-
-    def list(self, request, format=None) -> Response:
-        serializer = TempEntitySerializer(self.queryset.get_not_deleted(), many=True)
+    def list2(self, request, format=None) -> Response:
+        serializer = TempEntitySerializer(
+            self.queryset.get_not_deleted(),
+            many=True
+        )
         return Response(serializer.data)
 
     def destroy(self, request, pk: str) -> Response:
