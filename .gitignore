@@ -1,4 +1,5 @@
 .isort.cfg
+.idea
 .pyc
 *.log
 *.sqlite3
