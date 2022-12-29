@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -17,6 +19,15 @@ class TempViewSet(ViewSet):
 
 class TempEntityViewSet(ViewSet):
     queryset = TempEntity.objects.all()
+
+    @action(
+        methods=['get'],
+        detail=False,
+        url_path='list-2',
+        permission_classes=(
+                AllowAny,
+        )
+    )
 
     def list(self, request, format=None) -> Response:
         serializer = TempEntitySerializer(self.queryset.get_not_deleted(), many=True)

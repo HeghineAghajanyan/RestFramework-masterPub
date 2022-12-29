@@ -9,22 +9,22 @@ from apps.abstracts.models import AbstractsDateTime
 class TempModelQuerySet(QuerySet):
     """TempModelQuerySet."""
 
-    def get_deleted(self) -> QuerySet['TempModel']:
+    def get_deleted(self) :
         return self.filter(
             datetime_deleted__isnull=False
         )
 
-    def get_not_deleted(self) -> QuerySet['TempModel']:
+    def get_not_deleted(self) :
         return self.filter(
             datetime_deleted__isnull=True
         )
 
-    def get_not_equal_updated(self) -> QuerySet['TempModel']:
+    def get_not_equal_updated(self):
         return self.exclude(
             datetime_updated=F('datetime_created')
         )
 
-    def get_obj(self, p_key: str) -> Optional['TempModel']:
+    def get_obj(self, p_key: str):
         try:
             return self.get(
                 id=p_key
