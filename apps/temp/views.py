@@ -6,6 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
+from abstracts.mixins import ResponseMixin, ValidationMixin
 
 # Local
 from .models import (
@@ -14,19 +15,20 @@ from .models import (
 )
 from .serializers import (
     TempEntitySerializer,
-    TempSerializer
+    TempSerializer,
+    TempTwoSerializer,
 )
 
 
-class TempViewSet(ViewSet):
+class TempViewSet(ResponseMixin, ViewSet):
     queryset = TempModel.objects.all()
 
     def list(self, request, format=None) -> Response:
         serializer = TempSerializer(self.queryset, many=True)
-        return Response(serializer.data)
+        return self.get_json_data(serializer.data)
 
 
-class TempEntityViewSet(ViewSet):
+class TempEntityViewSet(ResponseMixin, ValidationMixin, ViewSet):
     queryset = TempEntity.objects.all()
 
     @action(
@@ -38,23 +40,28 @@ class TempEntityViewSet(ViewSet):
         )
     )
     def list2(self, request, format=None) -> Response:
-        serializer = TempEntitySerializer(
+        serializer = TempTwoSerializer(
             self.queryset.get_not_deleted(),
             many=True
         )
-        return Response(serializer.data)
+        return self.get_json_response(serializer.data)
+
+    def list(self, request: Response) -> Response:
+        serializer: TempEntitySerializer = TempEntitySerializer(self.queryset.get_not_deleted(), many=True)
+        return self.get_json_response(serializer.data)
+
+    def retrieve(self, request: Response, pk) -> Response:
+        obj = self.get_obj_or_raise(self.queryset, id=pk)
+        serializer = TempSerializer(obj)
+        return self.get_json_response(serializer.data)
 
     def destroy(self, request, pk: str) -> Response:
-        obj = self.queryset.get(
-            id=pk
-        )
+        obj = self.get_obj_or_raise(self.queryset, id=pk)
         obj.datetime_deleted = datetime.now()
         obj.save()
 
-        return Response(
-            {
+        return self.get_json_response({
                 'message': 'Object was deleted',
                 'object_id': f'{obj.id}',
                 'object_deleted': f'{obj.datetime_deleted}',
-            }
-        )
+            })

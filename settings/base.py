@@ -6,6 +6,7 @@ import sys
 DEBUG = True
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'auths.CustomUser'
+SECRET_KEY = 'heghine.aghajanyan2004'
 
 # ------------------------------------------------
 # Path
