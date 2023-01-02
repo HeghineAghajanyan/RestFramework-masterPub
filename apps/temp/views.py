@@ -50,15 +50,15 @@ class TempEntityViewSet(ResponseMixin, ValidationMixin, ViewSet):
         serializer: TempEntitySerializer = TempEntitySerializer(self.queryset.get_not_deleted(), many=True)
         return self.get_json_response(serializer.data)
 
+
     def retrieve(self, request: Response, pk) -> Response:
-        obj = self.get_obj_or_raise(self.queryset, id=pk)
+        obj = self.get_obj_or_raise(self.queryset, pk)
         serializer = TempSerializer(obj)
         return self.get_json_response(serializer.data)
 
     def destroy(self, request, pk: str) -> Response:
-        obj = self.get_obj_or_raise(self.queryset, id=pk)
-        obj.datetime_deleted = datetime.now()
-        obj.save()
+        obj = self.get_obj_or_raise(self.queryset, pk)
+        obj.delete()
 
         return self.get_json_response({
                 'message': 'Object was deleted',

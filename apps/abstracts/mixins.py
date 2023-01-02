@@ -1,6 +1,6 @@
 from typing import Any
 from rest_framework.response import Response
-
+from abstracts.validators import APIValidator
 
 class ResponseMixin:
     """Mixin for Response"""
@@ -21,9 +21,7 @@ class ValidationMixin:
         p_key: str
     ) -> Any:
 
-        obj: Any = queryset.get_obj(
-            p_key
-        )
+        obj: Any = queryset.get(id=p_key)
         if not obj:
             raise APIValidator(
                 f'Объект не найден: {p_key}',

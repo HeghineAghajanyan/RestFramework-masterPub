@@ -1,4 +1,6 @@
 # Django
+import datetime
+
 from django.db import models
 from django.db.models import (
     F,
@@ -88,3 +90,12 @@ class TempEntity(AbstractsDateTime):
         ordering = (
             'lastname',
         )
+
+    #TODO: here we can send_email
+    def save(self, *args, **kwargs) -> None:
+
+        super().save(*args, **kwargs)
+
+    def delete(self) -> None:
+        self.datetime_delete = datetime.datetime.now()
+        self.save(update_field=['datetime_deleted'])
