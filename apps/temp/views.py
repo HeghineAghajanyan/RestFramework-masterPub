@@ -81,15 +81,12 @@ class TempEntityViewSet(ResponseMixin, ValidationMixin, ViewSet):
         )
 
         request.data._mutable = True
-        print(obj)
         serializer: TempEntitySerializer = \
             TempEntitySerializer(
                 obj,
                 data=request.data
             )
         request.data['obj_id'] = obj.id
-        print(request.data)
-        print(serializer)
         if not serializer.is_valid():
             return self.get_json_response(
                 {

@@ -4,7 +4,9 @@ import sys
 
 
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*'
+]
 AUTH_USER_MODEL = 'auths.CustomUser'
 SECRET_KEY = 'heghine.aghajanyan2004'
 
@@ -17,6 +19,9 @@ BASE_DIR = os.path.dirname(
 sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, 'apps'))
 
+
+
+
 # ------------------------------------------------
 # Apps
 #
@@ -28,6 +33,8 @@ DJANGO_AND_THIRD_PARTY_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
 ]
 PROJECT_APPS = [
     'abstracts.apps.AbstractsConfig',
@@ -53,12 +60,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3030',
+]
+
+
+
+
+
+
 ROOT_URLCONF = 'settings.urls'
 
 TEMPLATES = [
@@ -92,6 +113,15 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # noqa
     },
 ]
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    )
+}
 # ------------------------------------------------
 # Other
 #

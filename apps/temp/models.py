@@ -9,6 +9,7 @@ from django.db.models import (
 
 # First party
 from abstracts.models import AbstractsDateTime
+from temp.validators import TempModelValidator
 
 
 class TempModelQuerySet(QuerySet):
@@ -60,7 +61,7 @@ class TempModel(AbstractsDateTime):
         )
 
 
-class TempEntity(AbstractsDateTime):
+class TempEntity(AbstractsDateTime, TempModelValidator):
     """TempEntity."""
 
     firstname = models.CharField(
@@ -96,9 +97,15 @@ class TempEntity(AbstractsDateTime):
     #         self.number
     #     )
 
-    #TODO: here we can send_email
-    def save(self, *args, **kwargs) -> None:
+    def clean(self) -> None:
+        self.validate_apartment_number(
+            self.apartment_number
+        )
+        self.validate_firstname(self.firstname)
 
+# TODO: here we can send_email
+    def save(self, *args, **kwargs) -> None:
+        self.full_clean()
         super().save(*args, **kwargs)
 
     def delete(self) -> None:
