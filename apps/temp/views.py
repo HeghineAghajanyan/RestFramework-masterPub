@@ -1,5 +1,6 @@
 # Python
 from datetime import datetime
+from urllib.request import Request
 
 # DRF
 from rest_framework.decorators import action
@@ -50,6 +51,94 @@ class TempEntityViewSet(ResponseMixin, ValidationMixin, ViewSet):
         serializer: TempEntitySerializer = TempEntitySerializer(self.queryset.get_not_deleted(), many=True)
         return self.get_json_response(serializer.data)
 
+    def create(self, request: Request, format=None) -> Response:
+
+        serializer: TempEntitySerializer = \
+            TempEntitySerializer(
+                data=request.data
+            )
+
+        if not serializer.is_valid():
+            return self.get_json_response(
+                {
+                    'message': 'Объект не был создан',
+                    'payload': request.data
+                }
+            )
+        serializer.save()
+
+        return self.get_json_response(
+            {
+                'message': 'Объект был создан',
+            }
+        )
+
+    def update(self, request: Request, pk: str) -> Response:
+
+        obj: TempModel = self.get_obj_or_raise(
+            self.queryset,
+            pk
+        )
+
+        request.data._mutable = True
+        print(obj)
+        serializer: TempEntitySerializer = \
+            TempEntitySerializer(
+                obj,
+                data=request.data
+            )
+        request.data['obj_id'] = obj.id
+        print(request.data)
+        print(serializer)
+        if not serializer.is_valid():
+            return self.get_json_response(
+                {
+                    'message': 'Объект не был обновлен',
+                    'payload': request.data
+                }
+            )
+
+        serializer.save()
+
+        request.data._mutable = False
+
+        return self.get_json_response(
+            {
+                'message': 'Объект был обновлен',
+                'payload': request.data
+            }
+        )
+
+    def partial_update(self, request: Request, pk: str) -> Response:
+
+        obj: TempModel = self.get_obj_or_raise(
+            self.queryset,
+            pk
+        )
+        serializer: TempSerializer = \
+            TempSerializer(
+                obj,
+                data=request.data,
+                partial=True
+            )
+        request.data['obj_id'] = obj.id
+
+        if not serializer.is_valid():
+            return self.get_json_response(
+                {
+                    'message': 'Объект не был частично-обновлен',
+                    'payload': request.data
+                }
+            )
+
+        serializer.save()
+
+        return self.get_json_response(
+            {
+                'message': 'Объект был частично-обновлен',
+                'payload': request.data
+            }
+        )
 
     def retrieve(self, request: Response, pk) -> Response:
         obj = self.get_obj_or_raise(self.queryset, pk)

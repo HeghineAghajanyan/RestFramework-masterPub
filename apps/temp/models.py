@@ -91,6 +91,11 @@ class TempEntity(AbstractsDateTime):
             'lastname',
         )
 
+    # def clean(self) -> None:
+    #     self.validate_number(
+    #         self.number
+    #     )
+
     #TODO: here we can send_email
     def save(self, *args, **kwargs) -> None:
 
